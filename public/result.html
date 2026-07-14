@@ -9,7 +9,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Lora&family=Sacramento&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     <link rel="stylesheet" href="./main.css">
-    <link rel="stylesheet" href="https://checkoutshopper-test.adyen.com/checkoutshopper/sdk/6.39.0/adyen.css">
+    <link rel="stylesheet" href="https://checkoutshopper-test.adyen.com/checkoutshopper/sdk/6.40.1/adyen.css">
     <style> body { background:#fee1ee; } </style>
 </head>
 <body>
@@ -22,7 +22,7 @@
         <a href="./index.html" class="btn fw-bold mt-3">Voltar à loja</a>
     </div>
 
-    <script src="https://checkoutshopper-test.adyen.com/checkoutshopper/sdk/6.39.0/adyen.js"></script>
+    <script src="https://checkoutshopper-test.adyen.com/checkoutshopper/sdk/6.40.1/adyen.js"></script>
     <script>
     (async function () {
         var params = new URLSearchParams(window.location.search);
@@ -51,6 +51,7 @@
                 clientKey: config.clientKey,
                 countryCode: "BR",
                 locale: "pt-BR",
+                analytics: { enabled: false },
                 session: { id: sessionId },
                 onPaymentCompleted: function (r) { outcome(r.resultCode); },
                 onPaymentFailed: function (r) { outcome(r && r.resultCode); },

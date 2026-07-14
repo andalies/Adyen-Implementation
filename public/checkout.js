@@ -81,6 +81,7 @@
         clientKey: config.clientKey,             // public key
         countryCode: "BR",                       // mandatory in v6
         locale: "pt-BR",
+        analytics: { enabled: false },           // avoid ERR_BLOCKED_BY_CLIENT crash
         session: {
           id: session.id,
           sessionData: session.sessionData,
