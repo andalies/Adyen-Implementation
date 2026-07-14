@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Coisas de gato</title>
+    <link rel="stylesheet" href="./lib/bootstrap.min.css">
+    <link rel="shortcut icon" type="image" href="./images/logo.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lora&family=Sacramento&family=Silkscreen&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link rel="stylesheet" href="./main.css">
+
+</head>
+<body>
+    <script src="./lib/bootstrap.bundle.min.js"></script>
+    <header class="navbar navbar-expand-lg sticky-top pt-4" id="cabecalho">
+        <div class="container">
+            <h1 class="navbar-brand m-0 fs-1">Resgatinhos</h1>
+            <button class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#menu-nav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <nav class="navbar-collapse collapse justify-content-end" id="menu-nav">
+                <ul class="nav nav-pills d-block d-md-flex">
+                    <li class="nav-item">
+                        <a href="#about" class="nav-link">
+                        <i class="bi bi-suit-heart-fill me-1"></i>
+                        Sobre nós</a>  
+                    </li class="nav-item">
+                    <li>
+                        <a href="#adocao" class="nav-link"><i class="bi bi-hearts me-1"></i>Adoção</a>
+                    </li>
+                    <li>
+                        <a href="#produtos" class="nav-link"><i class="bi bi-bag-heart me-1"></i>Produtos</a>
+                    </li>
+                    <li>
+                        <a href="#contato" class="nav-link">
+                            <i class="bi bi-envelope-open-heart me-1"></i>Contato</a>
+                    </li>
+                    <li>
+                        <a href="#" class="nav-link position-relative" id="abrir-carrinho" data-bs-toggle="offcanvas" data-bs-target="#carrinho">
+                            <i class="bi bi-cart-heart me-1"></i>Carrinho
+                            <span id="cart-badge" class="badge rounded-pill bg-light text-colored position-absolute top-0 start-100 translate-middle d-none">0</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+            </nav>
+        </div>
+    </header>
+    <div data-bs-spy="scroll" data-bs-target="cabecalho" data-bs-smooth-scroll="true">
+        <section id="about">
+            <div class="carousel slide" data-bs-ride="carousel" id="carousel">
+                <div class="carousel-inner">
+                <div data-bs-interval="3000" class="carousel-item active">
+                    <img src="./images/slide1.jpg" />
+                </div>
+                <div data-bs-interval="3000" class="carousel-item">
+                    <img src="./images/slide6.jpg" />
+                </div>
+                <div data-bs-interval="3000" class="carousel-item">
+                    <img src="./images/slide4.jpg" />
+                </div>
+                <button class="carousel-control-prev" type="button" data-bs-target="#carousel" data-bs-slide="prev">
+                    <span class="carousel-control-prev-icon"></span>
+                </button>
+                <button class="carousel-control-next" type="button" data-bs-target="#carousel" data-bs-slide="next">
+                    <span class="carousel-control-next-icon"></span>
+                </button>
+                <div class="carousel-indicators">
+                    <button type="button" data-bs-target="#carousel" data-bs-slide-to="0" class="active"></button>
+                    <button type="button" data-bs-target="#carousel" data-bs-slide-to="1"></button>
+                    <button type="button" data-bs-target="#carousel" data-bs-slide-to="2"></button>
+                </div>
+            </div>
+            
+            <div id="sobre-a-loja" class="container">
+                <div class="row">
+                    <div class="col-md-5">
+                        <img src="./images/gatos.png" class="d-block w-100">
+                    </div>
+                    <div class="col-md-7 mt-3 mt-md-0">
+                        <h2 class="section-title">Sobre <span class="text-colored">nós</span></h2>
+                        <p>
+                            Lorem ipsum dolor, sit amet consectetur adipisicing elit. Voluptas ex doloremque vero ad in labore explicabo reprehenderit velit officia mollitia. Molestiae corrupti itaque, quia dolorem iusto obcaecati cumque nemo sint.
+                        </p>
+                        <h3 class="section-title">Nossa <span class="text-colored">missão</span></h3>
+                        <p>
+                            Lorem ipsum dolor sit amet consectetur, adipisicing elit. Consectetur obcaecati temporibus possimus illo omnis quidem, nisi labore explicabo quasi, magni inventore repellat amet ipsa! Magni fugit quibusdam commodi voluptatibus recusandae.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <section id="adocao" class="pt-5 pb-5">
+            <div class="container">
+                <div class="row mt-4">
+                    <h2 class="section-title text-center">Gatinhos disponíveis <span class="text-colored">para adoção</span></h2>
+                </div>
+                <div class="row">
+                    <div class="col-md-4">
+                        <img src="./images/gato1.jpg" alt="gato branco" class="d-block w-100 rounded">
+                        <h3 class="section-title text-colored pt-3 fs-2">
+                        <i class="bi bi-suit-heart me-1"></i>
+                        Pompom</h3>
+                        <p>
+                            Lorem ipsum dolor sit amet consectetur, adipisicing elit. Consequuntur enim impedit nihil perferendis laboriosam, recusandae similique! Eveniet dolore iusto deleniti quae assumenda. Officiis quia hic nihil sapiente, distinctio ullam minima.
+                        </p>
+                    </div>
+                    <div class="col-md-4">
+                        <img src="./images/gato3.jpg" alt="gato branco" class="d-block w-100 rounded">
+                        <h3 class="section-title text-colored pt-3 fs-2">
+                            <i class="bi bi-suit-heart me-1"></i>
+                            Banoffee</h3>
+                        <p>
+                            Lorem ipsum dolor sit amet consectetur, adipisicing elit. Consequuntur enim impedit nihil perferendis laboriosam, recusandae similique! Eveniet dolore iusto deleniti quae assumenda. Officiis quia hic nihil sapiente, distinctio ullam minima.
+                        </p>
+                    </div>
+                    <div class="col-md-4">
+                        <img src="./images/gato2.jpg" alt="gato branco" class="d-block w-100 rounded">
+                        <h3 class="section-title text-colored pt-3 fs-2">
+                            <i class="bi bi-suit-heart me-1"></i>
+                            Chico</h3>
+                        <p>
+                            Lorem ipsum dolor sit amet consectetur, adipisicing elit. Consequuntur enim impedit nihil perferendis laboriosam, recusandae similique! Eveniet dolore iusto deleniti quae assumenda. Officiis quia hic nihil sapiente, distinctio ullam minima.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <section id="produtos" class="pt-5 pb-5">
+            <div class="container">
+                <div class="row" id="produtosgato">
+                    <h2 class="section-title">Produtos</h2>
+                </div>
+                <div class="row">
+                    <aside class="col-md-2">
+                        <nav class="nav nav-pills flex-column nav-items">
+                            <button type="button" data-bs-toggle="tab" data-bs-target="#camas" class="nav-link fw-bold text-start active text-colored">Camas</button>
+                            <button type="button" data-bs-toggle="tab" data-bs-target="#petiscos" class="nav-link fw-bold text-start text-colored">Petiscos</button>
+                            <button type="button" data-bs-toggle="tab" data-bs-target="#brinquedos" class="nav-link fw-bold text-start text-colored">Brinquedos</button>
+                            <button type="button" data-bs-toggle="tab" data-bs-target="#areias" class="nav-link fw-bold text-start text-colored">Areias</button>
+                        </nav>
+                    </aside>
+                    <div class="col-md-10">
+                        <div class="tab-content">
+                            <div class="tab-pane active" id="camas">
+                                <div class="row">
+                                    <div class="col-md-3">
+                                        <div class="card mb-3 rounded-pill text-center overflow-hidden border-0 shadow mx-auto">
+                                            <img src="./images/oca.jpeg" alt="oca">
+                                                <div class="card-body"> 
+                                                    <h5 class="card-title fw-bold">Oca quentinha</h5>
+                                                    <p class="card-text">Oca bem quentinha para ele dormir</p>
+                                                    <a href="#" class="btn btn-light">Adicionar ao Carrinho</a>
+                                                    <p class="mt-3">R$ 209,99</p>
+                        
+                                                </div>
+                                                
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="card mb-3 rounded-pill text-center overflow-hidden border-0 shadow mx-auto" >
+                                            <img src="./images/bed.jpeg" alt="cama">
+                                                <div class="card-body"> 
+                                                    <h5 class="card-title fw-bold">Cama</h5>
+                                                    <p class="card-text">Lorem, ipsum dolor sit amet consectetur adipisicing elit. </p>
+                                                    <a href="#" class="btn btn-light">Adicionar ao Carrinho</a>
+                                                    <p class="mt-3">R$ 159,99</p>
+                        
+                                                </div>
+                                                
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="card  mb-3 rounded-pill text-center overflow-hidden border-0 shadow mx-auto">
+                                            <img src="./images/cama3.jpg" alt="cama">
+                                                <div class="card-body"> 
+                                                    <h5 class="card-title fw-bold">Cama</h5>
+                                                    <p class="card-text">Lorem, ipsum dolor sit amet consectetur adipisicing elit. </p>
+                                                    <a href="#" class="btn btn-light">Adicionar ao Carrinho</a>
+                                                    <p class="mt-3">R$ 209,99</p>
+                        
+                                                </div>
+                                                
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="card mb-3 rounded-pill text-center overflow-hidden border-0 shadow mx-auto">
+                                            <img src="./images/cama4.jpg" alt="cama">
+                                                <div class="card-body"> 
+                                                    <h5 class="card-title fw-bold">Cama</h5>
+                                                    <p class="card-text">Lorem, ipsum dolor sit amet consectetur adipisicing elit. </p>
+                                                    <a href="#" class="btn btn-light">Adicionar ao Carrinho</a>
+                                                    <p class="mt-3">R$ 179,99</p>
+                        
+                                                </div>
+                                                
+                                        </div>
+                                    </div>
+                                    
+                                    
+                                </div>
+                            </div>
+                            <div class="tab-pane" id="petiscos">
+                                <div class="row">
+                                    <div class="col-md-3">
+                                        <div class="card mb-3 rounded-pill text-center overflow-hidden border-0 shadow mx-auto">
+                                            <img src="./images/churu.jpg" alt="churu">
+                                                <div class="card-body"> 
+                                                    <h5 class="card-title fw-bold">Churu</h5>
+                                                    <p class="card-text">Petisco pastoso</p>
+                                                    <a href="#" class="btn btn-light">Adicionar ao Carrinho</a>
+                                                    <p class="mt-3">R$ 18,99</p>
+                        
+                                                </div>
+                                                
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="card mb-3 rounded-pill text-center overflow-hidden border-0 shadow mx-auto" >
+                                            <img src="./images/snack1.jpg" alt="snack">
+                                                <div class="card-body"> 
+                                                    <h5 class="card-title fw-bold">Petisquinho</h5>
+                                                    <p class="card-text">Lorem ipsum dolor sit amet consectetur, adipisicing elit.</p>
+                                                    <a href="#" class="btn btn-light">Adicionar ao Carrinho</a>
+                                                    <p class="mt-3">R$ 20,00</p>
+                        
+                                                </div>
+                                                
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="card mb-3 rounded-pill text-center overflow-hidden border-0 shadow mx-auto" >
+                                            <img src="./images/snack3.jpg" alt="snack">
+                                                <div class="card-body"> 
+                                                    <h5 class="card-title fw-bold">Petisquinho</h5>
+                                                    <p class="card-text">Lorem ipsum dolor sit amet consectetur, adipisicing elit.</p>
+                                                    <a href="#" class="btn btn-light">Adicionar ao Carrinho</a>
+                                                    <p class="mt-3">R$ 21,00</p>
+                        
+                                                </div>
+                                                
+                                        </div>
+                                    </div>
+                                </div>  
+                            </div>
+                            <div class="tab-pane" id="brinquedos">
+                                <div class="row">
+                                    <div class="col-md-3">
+                                        <div class="card mb-3 rounded-pill text-center overflow-hidden border-0 shadow mx-auto">
+                                            <img src="./images/toy.jpeg" alt="brinquedo">
+                                                <div class="card-body"> 
+                                                    <h5 class="card-title fw-bold">Brinquedinho</h5>
+                                                    <p class="card-text">Para brincar com seu gatinho</p>
+                                                    <a href="#" class="btn btn-light">Adicionar ao Carrinho</a>
+                                                    <p class="mt-3">R$ 49,99</p>
+                        
+                                                </div>
+                                                
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="card mb-3 rounded-pill text-center overflow-hidden border-0 shadow mx-auto" >
+                                            <img src="./images/toy2.jpg" alt="brinquedo">
+                                                <div class="card-body"> 
+                                                    <h5 class="card-title fw-bold">Brinquedinho</h5>
+                                                    <p class="card-text">Para brincar com seu gatinho</p>
+                                                    <a href="#" class="btn btn-light">Adicionar ao Carrinho</a>
+                                                    <p class="mt-3">R$ 109,99</p>
+                        
+                                                </div>
+                                                
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="card  mb-3 rounded-pill text-center overflow-hidden border-0 shadow mx-auto">
+                                            <img src="./images/toy3.jpg" alt="brinquedo">
+                                                <div class="card-body"> 
+                                                    <h5 class="card-title fw-bold">Brinquedinho</h5>
+                                                    <p class="card-text">Para brincar com seu gatinho</p>
+                                                    <a href="#" class="btn btn-light">Adicionar ao Carrinho</a>
+                                                    <p class="mt-3">R$ 100,00</p>
+                        
+                                                </div>
+                                                
+                                        </div>
+                                    </div>
+                                    
+                                </div>
+                            </div>
+                            <div class="tab-pane" id="areias">
+                                <div class="row">
+                                    <div class="col-md-3">
+                                        <div class="card mb-3 rounded-pill text-center overflow-hidden border-0 shadow mx-auto">
+                                            <img src="./images/litter1.jpg" alt="areia">
+                                                <div class="card-body"> 
+                                                    <h5 class="card-title fw-bold">Areia</h5>
+                                                    <p class="card-text">Lorem ipsum, dolor sit amet consectetur adipisicing elit. </p>
+                                                    <a href="#" class="btn btn-light">Adicionar ao Carrinho</a>
+                                                    <p class="mt-3">R$ 59,99</p>
+                        
+                                                </div>
+                                                
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="card mb-3 rounded-pill text-center overflow-hidden border-0 shadow mx-auto" >
+                                            <img src="./images/litter2.jpg" alt="areia">
+                                                <div class="card-body"> 
+                                                    <h5 class="card-title fw-bold">Areia de Tofu</h5>
+                                                    <p class="card-text">Lorem ipsum, dolor sit amet consectetur adipisicing elit. </p>
+                                                    <a href="#" class="btn btn-light">Adicionar ao Carrinho</a>
+                                                    <p class="mt-3">R$ 49,99</p>
+                        
+                                                </div>
+                                                
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="card  mb-3 rounded-pill text-center overflow-hidden border-0 shadow mx-auto">
+                                            <img src="./images/litter3.jpg" alt="areia">
+                                                <div class="card-body"> 
+                                                    <h5 class="card-title fw-bold">Areia Especial</h5>
+                                                    <p class="card-text">Lorem ipsum, dolor sit amet consectetur adipisicing elit. </p>
+                                                    <a href="#" class="btn btn-light">Adicionar ao Carrinho</a>
+                                                    <p class="mt-3">R$ 69,99</p>
+                        
+                                                </div>
+                                                
+                                        </div>
+                                    </div>
+                            
+                        </div>
+                    </div>
+                </div>
+            </div>        
+        </section>
+        <section id="contato" class="pt-5 pb-5">
+            <div class="container">
+                <div class="row">
+                    <h2 class="section-title text-center">Fale <span class="text-colored">Conosco</span></h2>
+                </div>
+                <div class="row">
+                    <div class="col-md-7 mb-5">
+                        <form>
+                            <div>
+                                <div class="mb-3">
+                                    <label for="nome" class="form-label fw-bold text-colored">Seu nome</label>
+                                    <input type="text" id="nome" class="form-control">
+                                </div>
+                                <div class="mb-3">
+                                    <label for="email" class="form-label fw-bold text-colored">Seu e-mail</label>
+                                    <input type="email" id="email" class="form-control" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="telefone" class="form-label fw-bold text-colored">Seu telefone (opcional)</label>
+                                    <input type="tel" id="telefone" class="form-control" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="mensagem" class="form-label fw-bold text-colored">Sua mensagem</label>
+                                <textarea id="mensagem" class="form-control" required></textarea>
+                                </div>
+                                <button type="submit" class="btn fw-bold">Enviar</button>
+
+                            </div>
+                        </form>
+                    </div>
+                    <div class="col-md-5">
+                        <div class="row mt-4">
+                            <h3 class="section-title fs-3 text-colored">
+                                <i class="bi bi-chat-heart-fill"></i>
+                                Redes sociais</h3>
+                            <ul class="social-links">
+                                <li class="fs-5">
+                                    <a href="#">
+                                        <i class="bi bi-facebook text-colored"></i>
+                                    </a>
+                                </li>
+                                <li class="fs-5 ms-1 me-1">
+                                    <a href="#">
+                                        <i class="bi bi-instagram text-colored"></i>
+                                    </a>
+                                </li>
+                                <li class="fs-5">
+                                    <a href="#">
+                                        <i class="bi bi-whatsapp text-colored"></i>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="row">
+                            <h3 class="section-title fs-3 text-colored">
+                                <i class="bi bi-heart-arrow"></i>
+                                Endereço</h3>
+                            <p>
+                                Rua teste, 123 - Meow meow
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+    <!-- Carrinho (offcanvas) -->
+    <div class="offcanvas offcanvas-end" tabindex="-1" id="carrinho" aria-labelledby="carrinho-titulo">
+        <div class="offcanvas-header">
+            <h5 class="offcanvas-title text-colored fw-bold" id="carrinho-titulo">
+                <i class="bi bi-cart-heart me-1"></i>Seu carrinho
+            </h5>
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Fechar"></button>
+        </div>
+        <div class="offcanvas-body d-flex flex-column">
+            <div id="cart-items" class="flex-grow-1">
+                <p id="cart-empty" class="text-center text-muted mt-4">Seu carrinho está vazio 🐾</p>
+            </div>
+            <div class="border-top pt-3 mt-3">
+                <div class="d-flex justify-content-between fw-bold fs-5 mb-3">
+                    <span>Total</span>
+                    <span id="cart-total">R$ 0,00</span>
+                </div>
+                <a href="./checkout.html" id="ir-checkout" class="btn fw-bold w-100 disabled" aria-disabled="true">
+                    Finalizar compra
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <script type="text/javascript" src="https://code.jquery.com/jquery-1.11.0.min.js"></script>
+    <script type="text/javascript" src="https://code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
+    <script src="./js/jquery.mask.min.js"></script>
+    <script src="./js/jquery.validate.min.js"></script>
+    <script src="./js/messages_pt_BR.min.js"></script>
+    <script src="./js/main.js"></script>
+    <script src="./cart.js"></script>
+    
+   
+</body>
+</html>

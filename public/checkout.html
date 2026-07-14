@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Finalizar compra — Resgatinhos</title>
+    <link rel="stylesheet" href="./lib/bootstrap.min.css">
+    <link rel="shortcut icon" type="image" href="./images/logo.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lora&family=Sacramento&family=Silkscreen&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link rel="stylesheet" href="./main.css">
+    <!-- Adyen Web v6 (test SDK from Adyen's CDN) -->
+    <link rel="stylesheet" href="https://checkoutshopper-test.adyen.com/checkoutshopper/sdk/6.39.0/adyen.css">
+    <style>
+        body { background-color: #fee1ee; }
+        .checkout-card { background: #fff; border-radius: 18px; }
+        #dropin-container { min-height: 120px; }
+    </style>
+</head>
+<body>
+    <header class="navbar navbar-expand-lg pt-3 pb-3" id="cabecalho">
+        <div class="container">
+            <a href="./index.html" class="navbar-brand m-0 fs-1 text-decoration-none">Resgatinhos</a>
+            <a href="./index.html" class="nav-link text-light">
+                <i class="bi bi-arrow-left me-1"></i>Voltar à loja
+            </a>
+        </div>
+    </header>
+
+    <div class="container my-4" style="max-width: 760px;">
+        <div class="row g-4">
+            <!-- Resumo do pedido -->
+            <div class="col-md-5">
+                <div class="checkout-card shadow p-4">
+                    <h5 class="fw-bold text-colored mb-3"><i class="bi bi-bag-heart me-1"></i>Resumo</h5>
+                    <div id="resumo-itens"></div>
+                    <hr>
+                    <div class="d-flex justify-content-between fw-bold fs-5">
+                        <span>Total</span>
+                        <span id="resumo-total">R$ 0,00</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Pagamento -->
+            <div class="col-md-7">
+                <div class="checkout-card shadow p-4">
+                    <h5 class="fw-bold text-colored mb-3"><i class="bi bi-credit-card-2-front me-1"></i>Pagamento</h5>
+                    <div id="status-msg" class="alert d-none" role="alert"></div>
+                    <div id="dropin-container"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="./lib/bootstrap.bundle.min.js"></script>
+    <script src="https://checkoutshopper-test.adyen.com/checkoutshopper/sdk/6.39.0/adyen.js"></script>
+    <script src="./checkout.js"></script>
+</body>
+</html>
