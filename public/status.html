@@ -57,7 +57,7 @@
 
     <div class="container my-4" style="max-width: 900px;">
         <div id="result-banner" class="alert d-none mb-4" role="alert"></div>
-        <h2 class="section-title mb-4"><i class="bi bi-receipt-cutoff me-2"></i>Payment Status</h2>
+        <h2 class="section-title mb-4"><i class="bi bi-receipt-cutoff me-2"></i>Status do Pagamento</h2>
 
         <div id="no-payments" class="text-center text-muted py-5">
             <i class="bi bi-inbox fs-1"></i>
@@ -87,6 +87,25 @@
         return '<span class="badge badge-' + status + '">' + status + '</span>';
     }
 
+    var eventTranslations = {
+        'SESSION_CREATED': 'Sessao criada',
+        'CLIENT_RESULT': 'Resultado do cliente',
+        'AUTHORISATION': 'Autorizacao',
+        'CAPTURE': 'Captura',
+        'REFUND': 'Reembolso',
+        'CANCELLATION': 'Cancelamento',
+        'CHARGEBACK': 'Contestacao',
+    };
+
+    var successTranslations = {
+        'true': 'sucesso',
+        'false': 'falhou',
+    };
+
+    function translateEvent(type) {
+        return eventTranslations[type] || type;
+    }
+
     function eventIcon(evt) {
         if (evt.type === 'SESSION_CREATED' || evt.type === 'CLIENT_RESULT') return 'neutral';
         if (evt.success === true) return 'success';
@@ -94,16 +113,21 @@
         return 'neutral';
     }
 
+    // Track which details are open so auto-refresh preserves state
+    var openDetails = {};
+
     function renderPayment(p) {
         var eventsHtml = p.events.map(function(evt) {
-            var label = evt.type;
+            var label = translateEvent(evt.type);
             if (evt.resultCode) label += ' (' + evt.resultCode + ')';
-            if (evt.success !== undefined) label += ' — ' + (evt.success ? 'success' : 'failed');
+            if (evt.success !== undefined) label += ' — ' + (evt.success ? 'sucesso' : 'falhou');
             return '<div class="timeline-item">' +
                 '<small class="text-muted">' + formatTime(evt.time) + '</small><br>' +
                 '<span class="fw-bold">' + label + '</span>' +
                 '</div>';
         }).join('');
+
+        var isOpen = openDetails[p.reference] ? ' open' : '';
 
         return '<div class="status-card shadow p-4 mb-3">' +
             '<div class="d-flex justify-content-between align-items-start flex-wrap gap-2">' +
@@ -121,14 +145,19 @@
             (p.pspReference ? '<div class="mt-2"><small class="text-muted">PSP Reference: <code>' + p.pspReference + '</code></small></div>' : '') +
             '<div class="mt-2"><small class="text-muted">Session ID: <code style="font-size:0.75rem;">' + p.sessionId + '</code></small></div>' +
             '<hr>' +
-            '<details>' +
-                '<summary class="text-colored fw-bold" style="cursor:pointer;"><i class="bi bi-list-ul me-1"></i>Event Timeline</summary>' +
+            '<details data-ref="' + p.reference + '"' + isOpen + '>' +
+                '<summary class="text-colored fw-bold" style="cursor:pointer;"><i class="bi bi-list-ul me-1"></i>Linha do Tempo</summary>' +
                 '<div class="timeline mt-3">' + eventsHtml + '</div>' +
             '</details>' +
         '</div>';
     }
 
     async function loadPayments() {
+        // Save which details are open before re-rendering
+        document.querySelectorAll('details[data-ref]').forEach(function(el) {
+            openDetails[el.getAttribute('data-ref')] = el.open;
+        });
+
         var res = await fetch('/api/payments');
         var data = await res.json();
         var list = document.getElementById('payments-list');
