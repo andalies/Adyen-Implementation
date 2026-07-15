@@ -83,8 +83,25 @@
                d.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit', second: '2-digit' });
     }
 
+    var statusTranslations = {
+        'PENDING': 'Pendente',
+        'Authorised': 'Autorizado',
+        'AUTHORISED': 'Autorizado',
+        'CAPTURED': 'Capturado',
+        'Refused': 'Recusado',
+        'REFUSED': 'Recusado',
+        'REFUNDED': 'Reembolsado',
+        'CANCELLED': 'Cancelado',
+        'Cancelled': 'Cancelado',
+        'CHARGEBACK': 'Contestado',
+        'Error': 'Erro',
+        'Pending': 'Pendente',
+        'Received': 'Recebido',
+    };
+
     function statusBadge(status) {
-        return '<span class="badge badge-' + status + '">' + status + '</span>';
+        var label = statusTranslations[status] || status;
+        return '<span class="badge badge-' + status + '">' + label + '</span>';
     }
 
     var eventTranslations = {
@@ -119,7 +136,7 @@
     function renderPayment(p) {
         var eventsHtml = p.events.map(function(evt) {
             var label = translateEvent(evt.type);
-            if (evt.resultCode) label += ' (' + evt.resultCode + ')';
+            if (evt.resultCode) label += ' (' + (statusTranslations[evt.resultCode] || evt.resultCode) + ')';
             if (evt.success !== undefined) label += ' — ' + (evt.success ? 'sucesso' : 'falhou');
             return '<div class="timeline-item">' +
                 '<small class="text-muted">' + formatTime(evt.time) + '</small><br>' +
