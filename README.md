@@ -30,8 +30,8 @@ Add something to the cart → **Finalizar compra**. Use an Adyen test card:
 
 | Field        | Value                                   |
 | ------------ | --------------------------------------- |
-| Card number  | `4111 1111 1111 1111` (Visa)            |
-| Expiry       | any future date, e.g. `03/30`           |
+| Card number  | `5555 5555 5555 4444` (Mastercard)      |
+| Expiry       | `03/30`                                 |
 | CVC          | `737`                                   |
 | 3DS password | `password` (if challenged)              |
 
@@ -71,15 +71,16 @@ The two non-negotiables this demo makes concrete:
 
 | File                    | Role                                                        |
 | ----------------------- | ----------------------------------------------------------- |
-| `server.js`             | Express: `/api/config`, `/api/sessions`, `/api/webhooks`    |
+| `server.js`             | Express: `/api/config`, `/api/sessions`, `/api/webhooks`, `/api/payments`, `/api/status` |
 | `public/index.html`     | The store (cart button + drawer added)                      |
 | `public/cart.js`        | Cart logic (localStorage, BRL minor units)                  |
 | `public/checkout.html`  | Order summary + Drop-in mount point                         |
 | `public/checkout.js`    | Creates the session, initialises Drop-in (v6 Sessions flow) |
 | `public/result.html`    | Return URL — finalises redirect-based methods (3DS, Pix)    |
+| `public/status.html`    | Live payment status dashboard with event timeline           |
 
 ## Versions
 
-- Adyen Web **6.39** (loaded from Adyen's test CDN)
+- Adyen Web **6.40.1** (loaded from Adyen's test CDN)
 - `@adyen/api-library` **30.x** (server)
 - Checkout API session endpoint
