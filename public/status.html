@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payment Status — Resgatinhos</title>
+    <link rel="stylesheet" href="./lib/bootstrap.min.css">
+    <link rel="shortcut icon" type="image" href="./images/logo.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lora&family=Sacramento&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link rel="stylesheet" href="./main.css">
+    <style>
+        body { background-color: #fee1ee; }
+        .status-card { background: #fff; border-radius: 18px; }
+        .badge-PENDING { background-color: #6c757d; }
+        .badge-Authorised, .badge-AUTHORISED { background-color: #198754; }
+        .badge-CAPTURED { background-color: #0d6efd; }
+        .badge-Refused, .badge-REFUSED { background-color: #dc3545; }
+        .badge-REFUNDED { background-color: #6f42c1; }
+        .badge-CANCELLED { background-color: #ffc107; color: #000; }
+        .badge-CHARGEBACK { background-color: #dc3545; }
+        .badge-Error { background-color: #dc3545; }
+        .event-dot { width: 10px; height: 10px; border-radius: 50%; display: inline-block; }
+        .event-dot.success { background-color: #198754; }
+        .event-dot.fail { background-color: #dc3545; }
+        .event-dot.neutral { background-color: #6c757d; }
+        .timeline { border-left: 2px solid #f06da8; padding-left: 16px; margin-left: 8px; }
+        .timeline-item { position: relative; padding-bottom: 12px; }
+        .timeline-item::before {
+            content: '';
+            width: 10px; height: 10px;
+            border-radius: 50%;
+            background: #f06da8;
+            position: absolute;
+            left: -21px;
+            top: 5px;
+        }
+        #no-payments { display: none; }
+    </style>
+</head>
+<body>
+    <header class="navbar navbar-expand-lg pt-3 pb-3" id="cabecalho">
+        <div class="container">
+            <a href="./index.html" class="navbar-brand m-0 fs-1 text-decoration-none">Resgatinhos</a>
+            <div class="d-flex gap-3">
+                <a href="./index.html" class="nav-link text-light">
+                    <i class="bi bi-arrow-left me-1"></i>Loja
+                </a>
+                <button onclick="loadPayments()" class="btn btn-sm btn-light text-colored fw-bold">
+                    <i class="bi bi-arrow-clockwise me-1"></i>Atualizar
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <div class="container my-4" style="max-width: 900px;">
+        <div id="result-banner" class="alert d-none mb-4" role="alert"></div>
+        <h2 class="section-title mb-4"><i class="bi bi-receipt-cutoff me-2"></i>Payment Status</h2>
+
+        <div id="no-payments" class="text-center text-muted py-5">
+            <i class="bi bi-inbox fs-1"></i>
+            <p class="mt-3">Nenhum pagamento registrado ainda.<br>
+            <a href="./index.html" class="text-colored">Ir para a loja</a> e fazer uma compra.</p>
+        </div>
+
+        <div id="payments-list"></div>
+    </div>
+
+    <script src="./lib/bootstrap.bundle.min.js"></script>
+    <script>
+    function formatCurrency(amount) {
+        if (!amount) return '—';
+        return (amount.value / 100).toLocaleString('pt-BR', {
+            style: 'currency', currency: amount.currency
+        });
+    }
+
+    function formatTime(iso) {
+        var d = new Date(iso);
+        return d.toLocaleDateString('pt-BR') + ' ' +
+               d.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+    }
+
+    function statusBadge(status) {
+        return '<span class="badge badge-' + status + '">' + status + '</span>';
+    }
+
+    function eventIcon(evt) {
+        if (evt.type === 'SESSION_CREATED' || evt.type === 'CLIENT_RESULT') return 'neutral';
+        if (evt.success === true) return 'success';
+        if (evt.success === false) return 'fail';
+        return 'neutral';
+    }
+
+    function renderPayment(p) {
+        var eventsHtml = p.events.map(function(evt) {
+            var label = evt.type;
+            if (evt.resultCode) label += ' (' + evt.resultCode + ')';
+            if (evt.success !== undefined) label += ' — ' + (evt.success ? 'success' : 'failed');
+            return '<div class="timeline-item">' +
+                '<small class="text-muted">' + formatTime(evt.time) + '</small><br>' +
+                '<span class="fw-bold">' + label + '</span>' +
+                '</div>';
+        }).join('');
+
+        return '<div class="status-card shadow p-4 mb-3">' +
+            '<div class="d-flex justify-content-between align-items-start flex-wrap gap-2">' +
+                '<div>' +
+                    '<h5 class="fw-bold mb-1" style="font-family:monospace; font-size:0.9rem;">' + p.reference + '</h5>' +
+                    '<span class="text-muted" style="font-size:0.85rem;">' +
+                        '<i class="bi bi-clock me-1"></i>' + formatTime(p.createdAt) +
+                    '</span>' +
+                '</div>' +
+                '<div class="text-end">' +
+                    statusBadge(p.status) +
+                    '<div class="fw-bold fs-5 mt-1">' + formatCurrency(p.amount) + '</div>' +
+                '</div>' +
+            '</div>' +
+            (p.pspReference ? '<div class="mt-2"><small class="text-muted">PSP Reference: <code>' + p.pspReference + '</code></small></div>' : '') +
+            '<div class="mt-2"><small class="text-muted">Session ID: <code style="font-size:0.75rem;">' + p.sessionId + '</code></small></div>' +
+            '<hr>' +
+            '<details>' +
+                '<summary class="text-colored fw-bold" style="cursor:pointer;"><i class="bi bi-list-ul me-1"></i>Event Timeline</summary>' +
+                '<div class="timeline mt-3">' + eventsHtml + '</div>' +
+            '</details>' +
+        '</div>';
+    }
+
+    async function loadPayments() {
+        var res = await fetch('/api/payments');
+        var data = await res.json();
+        var list = document.getElementById('payments-list');
+        var empty = document.getElementById('no-payments');
+
+        if (data.length === 0) {
+            list.innerHTML = '';
+            empty.style.display = 'block';
+            return;
+        }
+
+        empty.style.display = 'none';
+        list.innerHTML = data.map(renderPayment).join('');
+    }
+
+    // Show result banner if redirected from checkout
+    (function () {
+        var params = new URLSearchParams(window.location.search);
+        var result = params.get('result');
+        if (!result) return;
+        var banner = document.getElementById('result-banner');
+        var map = {
+            'Authorised': { type: 'success', icon: 'bi-check-circle-fill', text: 'Pagamento aprovado! Obrigada pela compra.' },
+            'Refused':    { type: 'danger',  icon: 'bi-x-circle-fill',     text: 'Pagamento recusado. Tente outro metodo ou cartao.' },
+            'Pending':    { type: 'info',    icon: 'bi-hourglass-split',    text: 'Pagamento pendente de confirmacao.' },
+            'Received':   { type: 'info',    icon: 'bi-hourglass-split',    text: 'Pagamento recebido, aguardando confirmacao.' },
+            'Cancelled':  { type: 'warning', icon: 'bi-exclamation-triangle', text: 'Pagamento cancelado.' },
+        };
+        var info = map[result] || { type: 'warning', icon: 'bi-exclamation-triangle', text: 'Resultado: ' + result };
+        banner.className = 'alert alert-' + info.type;
+        banner.innerHTML = '<i class="bi ' + info.icon + ' me-2"></i>' + info.text +
+            ' <a href="./index.html" class="alert-link ms-2">Voltar a loja</a>';
+    })();
+
+    loadPayments();
+    // Auto-refresh every 5 seconds
+    setInterval(loadPayments, 5000);
+    </script>
+</body>
+</html>

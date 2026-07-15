@@ -37,6 +37,9 @@ const app = express();
 app.use(express.json());
 app.use(express.static(path.join(__dirname, "public")));
 
+// In-memory payment tracker (demo only — use a DB in production)
+const payments = [];
+
 /**
  * Public config for the browser. The clientKey is NOT a secret — it identifies
  * your account to the client-side SDK but cannot be used to move money.
@@ -55,17 +58,31 @@ app.post("/api/sessions", async (req, res) => {
     const { amount } = req.body; // { currency: "BRL", value: 20999 }
     const baseUrl = `${req.protocol}://${req.get("host")}`;
 
+    const reference = "resgatinhos-" + Date.now();
+
     const response = await checkout.PaymentsApi.sessions(
       {
         merchantAccount: ADYEN_MERCHANT_ACCOUNT,
         amount, // value is in MINOR units (centavos)
-        reference: "resgatinhos-" + Date.now(),
+        reference,
         returnUrl: `${baseUrl}/result.html`,
         countryCode: "BR",
         channel: "Web",
       },
-      { idempotencyKey: "resgatinhos-" + Date.now() } // avoid duplicate sessions
+      { idempotencyKey: reference } // avoid duplicate sessions
     );
+
+    // Track the payment
+    payments.push({
+      reference,
+      sessionId: response.id,
+      amount,
+      status: "PENDING",
+      pspReference: null,
+      createdAt: new Date().toISOString(),
+      updatedAt: new Date().toISOString(),
+      events: [{ type: "SESSION_CREATED", time: new Date().toISOString() }],
+    });
 
     // Only forward what the client needs.
     res.json({ id: response.id, sessionData: response.sessionData });
@@ -108,13 +125,58 @@ app.post("/api/webhooks", (req, res) => {
     `[webhook] ${eventCode} success=${success} ref=${merchantReference} psp=${pspReference}`
   );
 
-  // TODO (production): update order status in your DB based on eventCode:
-  //   AUTHORISATION + success=true  -> mark order paid, fulfil
-  //   AUTHORISATION + success=false -> mark failed
-  //   CAPTURE / REFUND / CHARGEBACK -> reconcile accordingly
+  // Update tracked payment
+  const payment = payments.find((p) => p.reference === merchantReference);
+  if (payment) {
+    payment.pspReference = pspReference;
+    payment.updatedAt = new Date().toISOString();
+    payment.events.push({
+      type: eventCode,
+      success: success === "true",
+      time: new Date().toISOString(),
+    });
+
+    if (eventCode === "AUTHORISATION") {
+      payment.status = success === "true" ? "AUTHORISED" : "REFUSED";
+    } else if (eventCode === "CAPTURE") {
+      payment.status = success === "true" ? "CAPTURED" : "CAPTURE_FAILED";
+    } else if (eventCode === "REFUND") {
+      payment.status = success === "true" ? "REFUNDED" : "REFUND_FAILED";
+    } else if (eventCode === "CANCELLATION") {
+      payment.status = success === "true" ? "CANCELLED" : payment.status;
+    } else if (eventCode === "CHARGEBACK") {
+      payment.status = "CHARGEBACK";
+    }
+  }
 
   // Adyen requires this exact acknowledgement, or it will retry.
   res.send("[accepted]");
+});
+
+/**
+ * Client-side result update. The Drop-in reports the resultCode here so we can
+ * update the status before the webhook arrives (webhook is still source of truth).
+ */
+app.post("/api/status", (req, res) => {
+  const { sessionId, resultCode } = req.body;
+  const payment = payments.find((p) => p.sessionId === sessionId);
+  if (payment && payment.status === "PENDING") {
+    payment.status = resultCode;
+    payment.updatedAt = new Date().toISOString();
+    payment.events.push({
+      type: "CLIENT_RESULT",
+      resultCode,
+      time: new Date().toISOString(),
+    });
+  }
+  res.json({ ok: true });
+});
+
+/**
+ * Payment status list for the status page.
+ */
+app.get("/api/payments", (req, res) => {
+  res.json(payments.slice().reverse());
 });
 
 app.listen(PORT, () => {

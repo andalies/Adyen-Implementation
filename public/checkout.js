@@ -72,6 +72,7 @@
         throw new Error(err.message || "Não foi possível iniciar o pagamento.");
       }
       var session = await sessionRes.json(); // { id, sessionData }
+      var sessionId = session.id;
 
       // 3. Initialise Adyen Web (v6) and mount Drop-in
       var { AdyenCheckout, Dropin } = window.AdyenWeb;
@@ -87,9 +88,11 @@
           sessionData: session.sessionData,
         },
         onPaymentCompleted: function (result) {
+          reportStatus(sessionId, result.resultCode);
           handleResult(result.resultCode);
         },
         onPaymentFailed: function (result) {
+          reportStatus(sessionId, result && result.resultCode);
           handleResult(result && result.resultCode);
         },
         onError: function (error) {
@@ -108,20 +111,21 @@
     }
   }
 
+  function reportStatus(sid, resultCode) {
+    fetch("/api/status", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ sessionId: sid, resultCode: resultCode }),
+    }).catch(function () {});
+  }
+
   function handleResult(resultCode) {
     // resultCode: Authorised | Refused | Pending | Received | Cancelled | Error
     if (resultCode === "Authorised") {
       localStorage.removeItem(STORAGE_KEY);
-      showStatus("success",
-        '<i class="bi bi-check-circle-fill me-1"></i>Pagamento aprovado! Obrigada pela compra 🐾 ' +
-        '<a href="./index.html" class="alert-link">Voltar à loja</a>.');
-    } else if (resultCode === "Pending" || resultCode === "Received") {
-      showStatus("info", "Pagamento pendente de confirmação. Avisaremos por e-mail.");
-    } else if (resultCode === "Refused") {
-      showStatus("danger", "Pagamento recusado. Tente outro método ou cartão.");
-    } else {
-      showStatus("warning", "Pagamento não concluído (" + (resultCode || "desconhecido") + ").");
     }
+    // Redirect to status page with the result
+    window.location.href = "./status.html?result=" + encodeURIComponent(resultCode || "unknown");
   }
 
   document.addEventListener("DOMContentLoaded", start);
